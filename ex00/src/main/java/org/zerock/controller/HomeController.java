@@ -22,15 +22,18 @@ public class HomeController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
+	//GET방식으로 접근하는 매핑주소를 처리. /는 루트매핑주소 루트매핑주소는 http://localhst:8002/controller/
 	@RequestMapping(value = "/", method = RequestMethod.GET)
+	//Locale 특정 지리적, 국가적 또는 문화적 시간대를 지역에 따라 나타내게 함.
 	public String home(Locale locale, Model model) {
+		//이클립스 콘솔모드에 출력
 		logger.info("Welcome home! The client locale is {}.", locale);
-		
-		Date date = new Date();
+		Date date = new Date(); //날짜 객체를 생성
+		//날짜 포맷객체 생성, 정적메서드 인자값으로 날짜스타일, 시간스타일, 해당국가 날짜/시간대 로케일
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
+		//날짜 객체를 문자열로 반환
 		String formattedDate = dateFormat.format(date);
-		
+		//serverTime 키이름에 날짜 문자열 값을 저장
 		model.addAttribute("serverTime", formattedDate );
 		
 		return "home";

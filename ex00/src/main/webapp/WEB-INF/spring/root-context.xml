@@ -30,6 +30,25 @@
 		<!-- mybatis-config.xml파일의 역할을 데이터 저장빈 클래스 객체 별칭을 관리. 
 		classpath경로는 이클립스 가상경로로 src/main/resources이고,실제 톰캣 경로로 /WEB-INF/classes경로를 뜻한다. -->
 		<property value="classpath:/mybatis-config.xml" name="configLocation"/>
+		<!-- mybatis 매퍼 xml태그로 쿼리문 다루는 매퍼태그 위치지정 -->
+		<property value="classpath:org/zerock/mappers/*/*.xml" name="mapperLocations"/>
 	</bean>
+	
+	<!-- mybatis쿼리문 수행객체를 설정 -->
+	<!-- clearCache는 임시메모리를 깨끗이 지운다. -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+	<!-- 생성자를 통한 의존성 DI설정. constructor는 생성자를 말함. -->
+	<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</bean>
+	
+	<!-- Model *DAOImpl의 @Repository로 설정된 부분을 스프링에서 오토스캔하게 등록해줌 -->
+	<context:component-scan base-package="org.zerock.dao"/>
+	
+	<!-- 서비스 오토스캔 추가. 서비스(Service)의 역할: 
+	1.컨트롤러와 모델 DAO를 연결하는 중간 매개체 역할
+	2.고객의 추가요구 사항을 반영하는 서비스.
+	3.스프링의 aop를 통한 트랜잭션을 적용함으로써 레코드 정확도, 일관성, 원자성의 원칙을 지켜서 사이트의 신뢰도를 가져온다. 자료의 불일치성을 완전히 제거한다. -->
+	<context:component-scan base-package="org.zerock.service"/>
+	
 		
 </beans>
