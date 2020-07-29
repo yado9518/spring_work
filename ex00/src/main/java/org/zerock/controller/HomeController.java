@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Handles requests for the application home page.
@@ -38,5 +39,13 @@ public class HomeController {
 		
 		return "home";
 	}
+	
+		//아작스 댓글뷰페이지
+		@RequestMapping("/test") //test매핑주소 등록
+		public ModelAndView test() {
+			ModelAndView m = new ModelAndView();
+			m.setViewName("reply"); //뷰페이지 경로 -> /WEB-INF/views/reply.jsp
+			return m;
+		}
 	
 }

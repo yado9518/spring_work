@@ -3,8 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>스프링 MVC 게시판 내용보기</title>
-<script src="../resources/js/jquery.js"></script> <%-- ../는 한단계 상위폴더로 이동 -> /board를 벗어남 --%>
+<title>비동기식(화면전환이 없다) 아작스 댓글</title>
 <style type="text/css">
 /* position 속성이 absolute 나  fixed 로 설정된 곳에서 요소가 겹쳐지는 순서를 제어할 수 있다. 값이 큰것이 앞에 나온다. */
 #modDiv{width: 300px; height: 100px; background: gray; position: absolute; top: 50%; left: 50%; 
@@ -12,34 +11,7 @@ margin-top: -50px; margin-left: -50px; padding: 10px; z-index: 1000;}
 </style>
 </head>
 <body>
-<table border="1">
-	<tr>
-		<th colspan="2">스프링 MVC 게시판 내용</th>
-	</tr>
-	<tr>
-		<th>제목</th>
-		<!-- b.title은 자바코드로 b.getTitle()과 같다. -->
-		<td>${b.title}</td>
-	</tr>
-	<tr>
-		<th>내용</th>
-		<td>${b.content}</td>
-	</tr>
-	<tr>
-		<th>조회수</th>
-		<td>${b.viewcnt}</td>
-	</tr>
-	<tr>
-		<th colspan="2">
-			<%-- board_edit?bno=번호&page=쪽번호 주소창에 노출되는 get방식으로 bno와 page 네임파라미터이름에 각각 번호와 쪽번호를 담아서 전달한다. --%>
-			<input type="button" value="수정" onclick="location='/board/board_edit?bno=${b.bno}&page=${page}';">
-			<input type="button" value="삭제" onclick="location='/board/board_del?bno=${b.bno}&page=${page}';">
-			<%-- board_list?page=쪽번호를 get으로 전달한 이유는 책갈피 기능때문이다. 책갈피란 내 본 페이지 쪽번호로 바로 이동하는 기능이다. --%>
-			<input type="button" value="목록" onclick="location='/board/board_list?page=${page}';">
-		</th>
-	</tr>
-</table>
-<br><hr><br> <%-- 게시판 내용보기와 댓글을 구분하는 선 --%>
+<%-- 댓글 수정 화면 --%>
 <div id="modDiv" style="display: none;"> <%-- display:none; css는 해당영역을 안보이게 함 --%>
 	<div class="model-title"></div> <%-- 댓글번호 --%>
 	<div>
@@ -69,14 +41,18 @@ margin-top: -50px; margin-left: -50px; padding: 10px; z-index: 1000;}
 	<%-- 닫기 버튼을 클릭했을때 onclick 이벤트핸들러(사건처리기)에 의해서 modDivClose()함수를 호출.
 	이 함수명은 자바스크립트 function키워드로 정의한다. --%>
 	<button type="button" id="closeBtn" onclick="modDivClose();">닫기</button>
+	
 </div>
 <br><hr><br>
 
 <%-- 댓글 목록 --%>
 <ul id="replies"></ul>
+
+<%-- jQuery 라이브러리 읽어옴 --%>
+<script src="/resources/js/jquery.js"></script>
 <script type="text/javascript">
 	
-	var bno = ${b.bno}; //게시판 번호 -> javascript에서 EL(표현언어)문법을 사용 가능함. (jstl로 가능)
+	var bno = 14; //게시판 번호
 	getAllList();
 	
 	function getAllList(){

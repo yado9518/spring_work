@@ -8,5 +8,6 @@
 		<!-- BoardVO빈클래스 객체명 별칭 b를 생성해서 관리 -> 매퍼 xml태그인 board.
 		xml에서 parameterType or resultType(반환타입속성)에서 참조한다. -->
 		<typeAlias type="org.zerock.vo.BoardVO" alias="b"/>
+		<typeAlias type="org.zerock.vo.ReplyVO" alias="r"/>
 	</typeAliases>
 </configuration>
