@@ -33,6 +33,7 @@
 	base-pakage속성에 설정된 것은 스프링에 자동 등록된다. 이패키지 하위의 컨트롤러 클래스를 스프링이 자동으로 찾아서(오토스캔) 인식하게 한다. -->
 	<context:component-scan base-package="org.zerock.controller" />
 	
-	
+	<!-- 스프링 이진파일 업로드 API 설정 -> 첨부파일을 처리하는 빈 ID설정 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/> 
 	
 </beans:beans>

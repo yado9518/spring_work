@@ -24,7 +24,12 @@
 		<c:forEach var="b" items="${blist}">
 		<tr>
 			<%-- board_cont?bno=번호값&page=쪽번호 형태의 주소창에 노출되는 get방식으로 &로 구분해서 bno,page 2개의 네임파라미터 이름에 번호, 쪽번호값을 각각 담아서 전달. --%>
-			<th>${b.bno}</th><th><a href="/board/board_cont?bno=${b.bno}&page=${page}">${b.title}</a></th>
+			<th>${b.bno}</th><th><a href="/board/board_cont?bno=${b.bno}&page=${page}">${b.title}
+			<c:if test="${b.replycnt != 0}"> <%-- 댓글 개수가 있는 경우만 실행 --%>
+				&nbsp;&nbsp;&nbsp; <%-- &nbsp;은 한칸의 빈공백 --%>
+				[댓글개수:${b.replycnt} 개]
+			</c:if>
+			</a></th>
 			<th>${b.writer}</th><th>${b.viewcnt}</th>
 			<th>${fn:substring(b.regdate,0,10)}</th> <%-- jstl fn태그립을 사용한 0이상 10미만 사이의 년월일만 반환 --%>
 		</tr>

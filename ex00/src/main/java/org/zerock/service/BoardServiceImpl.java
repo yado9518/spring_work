@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import org.zerock.dao.BoardDAO;
 import org.zerock.vo.BoardVO;
 
@@ -27,19 +29,18 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardVO> getBoardList(BoardVO b) {
 		return this.boardDao.getBoardList(b);
 	}
-
+	
+	/*
 	@Override
 	public void updateHit(int bno) {
 		this.boardDao.updateHit(bno);
 	}
-
-	@Override
-	public BoardVO getBoardList(int bno) {
-		return this.boardDao.getBoardCont(bno);
-	}
-
+	*/
+	
+	@Transactional(isolation = Isolation.READ_COMMITTED) //트랜잭션 격리(트랜잭션이 처리되는 중간에 외부간섭을 없앰)
 	@Override
 	public BoardVO getBoardCont(int bno) {
+		this.boardDao.updateHit(bno); //내용보기일때 조회수 증가 -> AOP를 통한 트랜잭션 적용대상
 		return this.boardDao.getBoardCont(bno);
 	}
 
@@ -51,6 +52,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void delBoard(int bno) {
 		this.boardDao.delBoard(bno);
+	}
+
+	@Override
+	public BoardVO getBoardList(int bno) {
+		return this.boardDao.getBoardCont(bno);
 	}
 	
 }

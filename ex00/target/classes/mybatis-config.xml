@@ -9,5 +9,6 @@
 		xml에서 parameterType or resultType(반환타입속성)에서 참조한다. -->
 		<typeAlias type="org.zerock.vo.BoardVO" alias="b"/>
 		<typeAlias type="org.zerock.vo.ReplyVO" alias="r"/>
+		<typeAlias type="org.zerock.vo.MessageVO" alias="message"/>
 	</typeAliases>
 </configuration>

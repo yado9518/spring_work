@@ -84,31 +84,27 @@ public class BoardController {
 		return "board/board_list"; //뷰페이지 경로 -> /WEB-INF/views/board/board_list.jsp
 	}
 	
-	//게시물 내용보기+조회수증가
-	@RequestMapping("/board_cont") //get or post 방식일때 모두 실행
-	public ModelAndView board_cont(@RequestParam("bno") int bno, HttpServletRequest request) throws Exception{
-		/*
-		 * @RequestParam("bno") int bno를 서블릿 변경하면 int bno = Integer.parseInt(request.getParamater("bno"));와 같은 기능이다.
-		 */
-		
-		int page = Integer.parseInt(request.getParameter("page")); //get으로 전달된 쪽번호를 정수숫자로 바꿔서 변수에 저장
-		this.boardService.updateHit(bno); //조회수 증가
-		
-		BoardVO b = this.boardService.getBoardList(bno); //번호에 해당하는 오라클 디비 레코드값을 가져옴.
-		
-		/*
-		 * ModelAndView 스프링 api 특징
-		 * 1.addObject(키이름,값) 키이름에 값을 저장할 수 있다. 이것은 서블릿의 request.setAttribute(키이름,값)과 기능이 유사하다.
-		 * 2.setViewName()메서드 인자값으로 뷰페이지 경로도 설정할 수 있고, 매필주소 경로도 redirect:/설정할 수 있다.
-		 * 3.ModelAndView 생성자 인자값으로 뷰페이지 경로도 설정가능하고, 매핑주소 경로도 redirect:/로 설정가능하다.
-		 */
-		ModelAndView cm = new ModelAndView();
-		cm.addObject("b",b); //b키이름에 b객체를 저장
-		cm.addObject("page",page); //page키이름에 쪽번호를 저장
-		cm.setViewName("/board/board_cont"); //뷰페이지 경로(뷰리졸브 경로) -> /WEB-INF/views/board/board_cont.jsp
-		
-		return cm;
-	}
+		//게시물 내용보기+조회수증가
+		@RequestMapping("/board_cont") //get or post 방식일때 모두 실행
+		public ModelAndView board_cont(@RequestParam("bno") int bno, HttpServletRequest request) throws Exception{
+			//@RequestParam("bno") int bno를 서블릿 변경하면 int bno= Integer.parseInt(request.getParameter("bno"));와 같은 기능이다. 		
+			int page=Integer.parseInt(request.getParameter("page"));
+			
+			//get으로 전달된 쪽번호를 정수숫자로 바꿔서 변수에 저장. this.boardService.updateHit(bno);//조회수 증가
+			BoardVO b=this.boardService.getBoardCont(bno); //번호에 해당하는 오라클 디비 레코드값을 가져오고 조회수 증가
+			
+			/* ModelAndView 스프링 api 특징)
+			 * 1.addObject(키이름,값)  키이름에 값을 저장할 수 있다. 이것은  서블릿의 request.setAttribute(키이름,값)과 기능이 유사하다.	
+			 * 2.setViewName()메서드 인자값으로 뷰페이지 경로도 설정할 수 있고,매핑주소 경로도 redirect:/설정할 수 있다.
+			 * 3.ModelAndView 생성자 인자값으로 뷰페이지 경로도 설정가능하고,매핑주소 경로도 redirect:/로 설정가능하다.
+			 */
+			ModelAndView cm=new ModelAndView();
+			
+			cm.addObject("b",b); //b키이름에 b 객체를 저장
+			cm.addObject("page",page); //page키이름에 쪽번호 저장
+			cm.setViewName("./board/board_cont");//뷰페이지 경로(뷰리졸브경로) -> /WEB-INF/views/board/board_cont.jsp
+			return cm;
+		}//board_cont()
 	
 	//게시물  수정폼
 	@RequestMapping("/board_edit")

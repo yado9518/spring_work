@@ -12,4 +12,5 @@ public interface BoardDAO {
 	BoardVO getBoardCont(int bno);
 	void editBoard(BoardVO b);
 	void delBoard(int bno);
+	void updateReplyCnt(int bno, int count);
 }

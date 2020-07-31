@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -71,6 +72,9 @@ margin-top: -50px; margin-left: -50px; padding: 10px; z-index: 1000;}
 	<button type="button" id="closeBtn" onclick="modDivClose();">닫기</button>
 </div>
 <br><hr><br>
+<%-- 문제) 댓글 개수를 EL로 출력해 본다. --%>
+[댓글개수 : ${b.replycnt}]
+<br>
 
 <%-- 댓글 목록 --%>
 <ul id="replies"></ul>

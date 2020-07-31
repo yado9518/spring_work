@@ -1,6 +1,8 @@
 package org.zerock.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,5 +75,13 @@ public class BoardDAOImpl implements BoardDAO {
 	 * 	1.폼태그의 method=post인 경우
 	 * 	2.아작스 post방식인 경우
 	 */
+
+	@Override
+	public void updateReplyCnt(int bno, int count) {
+		Map<String, Object> pm = new HashMap<String, Object>(); //뒷부분 <>제네릭 타입을 생략할 수 있는 것은 자바 7이후부터 가능하다. 키, 값 쌍으로 저장하는 컬렉션 맵
+		pm.put("bno", bno); //bno키이름에 번호값 저장
+		pm.put("count",count);
+		this.sqlSession.update("r_cnt",pm); //r_cnt는 board.xml에 설정할 유일한 update 아이디명
+	} //댓글 카운터 증가
 	
 }

@@ -36,6 +36,11 @@ public class ReplyDAOImpl implements ReplyDAO {
 		//mybatis에서 delete()는 레코드 삭제, r_del은 reply.xml에서 설정할 delete아이디명
 		this.sqlSession.delete("r_del",rno);	
 	} //댓글삭제
+
+	@Override
+	public int getBno(int rno) {
+		return this.sqlSession.selectOne("r_bno",rno); //mybatis에서 selectOne()메서드는 단 한개의 레코드만 검색, r_bno는 reply.xml에서 설정할 유일한 select 아이디명
+	} //댓글번호에 해당하는 게시판 번호값 알아내기
 	
 }
 

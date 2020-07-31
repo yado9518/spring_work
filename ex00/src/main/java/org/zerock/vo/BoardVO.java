@@ -10,6 +10,7 @@ public class BoardVO {
 	private String content;
 	private int viewcnt;
 	private String regdate;
+	private int replycnt; //댓글수
 	
 	//페이징(쪽나누기:paging) 관련변수
 	private int startrow; //시작행 번호
