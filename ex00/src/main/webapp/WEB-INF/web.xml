@@ -62,7 +62,7 @@ id="WebApp_ID" version="3.1">
 		
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
-		<url-pattern>/</url-pattern>
+		<url-pattern>/ㄴ</url-pattern>
 	</servlet-mapping>
 	
 </web-app>
