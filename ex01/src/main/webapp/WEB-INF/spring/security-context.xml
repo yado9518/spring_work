@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security.xsd
+	http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- CustomAccessDeniedHandler 클래스의 빈아이디 객체명 customAccessDenied를 성정해서 생성
+	자바코드로 표현 -> CustomAccessDeniedHandler customAccessDeniedHandler = new CustomAccessDeniedHandler와 같은 역할을 한다. -->
+	<bean id="customAccessDenied" class="net.abc.security.CustomAccessDeniedHandler"/>	
+	
+	<security:http>	<!-- 스프링 시큐리티가 http에서 알 수 있게 하는 시작지점 설정 -->
+		
+		<!-- 특정한 url에 접근할 때 인터셉터(중간에 가로채는 것)를 이용해서 접근을 제한 하는 설정은 
+		<security:intercept-url>을 이용한다. pattern속성값은 컨트롤러에 지정한 매핑주소가 된다.
+		access속성은 권한범위를 체크한다. permitAll은 모든 사용자를 허용한다. -->
+		<security:intercept-url pattern="/sample/all" access="premitAll"/>
+		
+		<!-- ROLE_MEMBER는 로그인한 사용자만 접근할 수 있다. -->
+		<security:intercept-url pattern="/sample/member" access="hasRole('ROLE_MEMBER')"/>
+		
+		<!-- 로그인 한 사용자들 중에서 관리자 권한을 가진 사용자만이 접근할 수 있다. -->
+		<security:intercept-url pattern="/sample/admin" access="hasRole('ROLE_ADMIN')"/>
+		
+		<!-- 접근금지 에러가 발생했을 때 accessError 매핑주소가 실행되게 함. net.abc.controller패키지에 accessError매핑주소가 실행될
+		CommonController 클래스를 생성한다. -->
+		<security:access-denied-handler error-page="/accessError"/>
+		
+		<security:form-login/> <!-- 스프링 시큐리티에서 내부적으로 제공하는 폼 로그인 -->
+		
+	</security:http>
+	
+	<!-- 스프링 시큐리티가 동작하기 위해서는  authentication-manager(인증관리자) -> 관리자, 회원등 권한 설정 관리자 -->
+	<security:authentication-manager> 
+		<security:authentication-provider>
+			<security:user-service>
+				<!-- 사용자 아이디가 member, 비번이 member인 사용자는 로그인 인증처리. 
+				{noop}는 비번을 인코딩 즉 암호화 없이 사용한다. -->
+				<security:user name="member" password="{noop}member" authorities="ROLE_MEMBER"/>
+				
+				<!-- 아이디가 admin, 비번이 admin인 사용자는 /sample/member 와 /sample/admin 모두에 접근할 수 있다.  -->
+				<security:user name="admin" password="{noop}admin" authorities="ROLE_MEMBER,ROLE_ADMIN"/>
+			</security:user-service>
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+</beans>
